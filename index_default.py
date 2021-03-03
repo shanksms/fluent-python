@@ -1,8 +1,11 @@
+
 import sys
 import re
+import collections
 
 WORD_RE = re.compile(r'\w+')
-index = {}
+#here we are passing list which is list contructor
+index = collections.defaultdict(list)
 
 with open('zen.txt', encoding='utf-8') as fp:
     for line_no, line in enumerate(fp, 1):
@@ -10,7 +13,7 @@ with open('zen.txt', encoding='utf-8') as fp:
             word = match.group();
             column_no = match.start() + 1
             location = (line_no, column_no)
-            index.setdefault(word, []).append(location)
+            index[word].append(location)
 
 
 for word in sorted(index, key=str.upper):
