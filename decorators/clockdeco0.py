@@ -11,13 +11,20 @@ factorial = clock(factorial)
 
 '''
 def clock(func):
-    def clocked(*args):
+    def clocked(*args, **kwargs):
         t0 = time.perf_counter()
-        result = func(*args)
+        result = func(*args, **kwargs)
         elapsed = time.perf_counter() - t0
         name = func.__name__
-        arg_str = ', '.join(repr(arg) for arg in args)
-        print(f'[{elapsed:0.8f}s] {name}({arg_str}) -> {result!r}')
+        arg_lst = []
+        if args:
+            arg_lst.append(', '.join(repr(arg) for arg in args))
+        if kwargs:
+            pairs = [f'{k}={repr(v)}' for k, v in kwargs.items()]
+            arg_lst.append(', '.join(pairs))
+
+        arg_str = ', '.join(arg_lst)
+        print(f'[{elapsed:0.8f}s] {name}({arg_str}) -> {repr(result)}')
         return result
     return clocked
 
