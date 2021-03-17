@@ -1,4 +1,5 @@
 import time
+from functools import wraps
 '''
 Remember that this code:
 @clock
@@ -11,6 +12,7 @@ factorial = clock(factorial)
 
 '''
 def clock(func):
+    @wraps(func)
     def clocked(*args, **kwargs):
         t0 = time.perf_counter()
         result = func(*args, **kwargs)
